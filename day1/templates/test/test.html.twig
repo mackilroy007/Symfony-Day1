@@ -18,3 +18,7 @@
 
 {% set foo3 = { 'foo': 'bar'} %}
 {{ foo3.foo }}
+
+{{ "now"|date('d/m/Y H:i', timezone="Europe/Paris") }}
+<br>
+{{ "now"|date (null, "Europe/Paris") }}
