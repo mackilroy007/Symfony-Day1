@@ -2,28 +2,36 @@
 
 namespace App\Entity;
 
-use App\Repository\PruductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PruductRepository::class)
+ * Product
+ *
+ * @ORM\Table(name="product")
+ * @ORM\Entity
  */
-class Pruduct
+class Product
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="price", type="integer", nullable=false)
      */
     private $price;
 
@@ -55,4 +63,6 @@ class Pruduct
 
         return $this;
     }
+
+
 }
