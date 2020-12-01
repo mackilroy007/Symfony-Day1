@@ -1,3 +1,20 @@
 {{ varName.name }}
 <br>
 {{ varName.age }}
+
+{# {% block javascript  %}
+    <script> console.log(test) </script>
+{% endblock %} #}
+<br>
+{# setting variables inside block codes #}
+
+{% set foo1 = 'foo' %}
+{{ foo1 }} <br>
+{# to print the variable foo #}
+
+{% set foo2 = [1, 2 ] %}
+{{foo2[0]}} <br>
+{{foo2[1]}} <br>
+
+{% set foo3 = { 'foo': 'bar'} %}
+{{ foo3.foo }}
