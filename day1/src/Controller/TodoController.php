@@ -95,8 +95,9 @@ class TodoController extends  AbstractController
     /**
      * @Route("/details/{id}", name="details_page")
      */
-    public   function   detailsAction($id)
+    public function  detailsAction($id)
     {
-        return   $this->render('todo/details.html.twig');
+        $todo = $this->getDoctrine()->getRepository('App:Todo')->find($id);
+        return $this->render('todo/details.html.twig', array('todo' => $todo));
     }
 }
