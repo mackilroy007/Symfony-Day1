@@ -143,4 +143,20 @@ class TodoController extends  AbstractController
         $todo = $this->getDoctrine()->getRepository('App:Todo')->find($id);
         return $this->render('todo/details.html.twig', array('todo' => $todo));
     }
+
+    /**
+     * @Route("/delete/{id}", name="todo_delete")
+     */
+    public function deleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $todo = $em->getRepository('App:Todo')->find($id);
+        $em->remove($todo);
+        $em->flush();
+        $this->addFlash(
+            'notice',
+            'Todo Removed'
+        );
+        return  $this->redirectToRoute('home_page');
+    }
 }

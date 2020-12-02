@@ -55,4 +55,6 @@ class ProductController extends AbstractController
         }
         // ... do something, like pass the $product object into a template
     }
+
+    
 }
