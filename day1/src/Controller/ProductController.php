@@ -9,9 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends AbstractController
 {
-    /**
-     * @Route("/", name="indexAction")
-     */
+    // deleted router to prevent conflict with todo crud
     public  function indexAction()
     {
         $products = $this->getDoctrine()
@@ -22,9 +20,7 @@ class ProductController extends AbstractController
 
 
 
-    /**
-     * @Route("/create", name="createAction")
-     */
+    // deleted the router 
     public function createAction()
     {
 
