@@ -85,11 +85,54 @@ class TodoController extends  AbstractController
 
 
     /**
-     * @Route("/edit/{id}", name="edit_page")
+     * @Route("/edit/{id}", name="todo_edit")
      */
-    public   function   editAction($id)
+    public  function editAction($id, Request $request)
     {
-        return   $this->render('todo/edit.html.twig');
+        /* Here we have a variable todo and it will save the result of this search and it will be one result because we search based on a specific id */
+        $todo = $this->getDoctrine()->getRepository('App:Todo')->find($id);
+        $now = new \DateTime('now');
+        /* Now we will use set functions and inside this set functions we will bring the value that is already exist using get function for example we have setName() and inside it we will bring the current value and use it again */
+        $todo->setName($todo->getName());
+        $todo->setCategory($todo->getCategory());
+        $todo->setDescription($todo->getDescription());
+        $todo->setPriority($todo->getPriority());
+        $todo->setDueDate($todo->getDueDate());
+        $todo->setCreateDate($now);
+        /* Now when you type createFormBuilder and you will put the variable todo the form will be filled of the data that you already set it */
+        $form = $this->createFormBuilder($todo)->add('name', TextType::class, array('attr' => array('class' => 'form-control', 'style' => 'margin-botton:15px')))
+            ->add('category', TextType::class, array('attr' => array('class' => 'form-control', 'style' => 'margin-bottom:15px')))
+            ->add('description', TextareaType::class, array('attr' => array('class' => 'form-control', 'style' => 'margin-botton:15px')))
+            ->add('priority', ChoiceType::class, array('choices' => array('Low' => 'Low', 'Normal' => 'Normal', 'High' => 'High'), 'attr' => array('class' => 'form-control', 'style' => 'margin-botton:15px')))
+            ->add('due_date', DateTimeType::class, array('attr'  => array('style' => 'margin-bottom:15px')))
+            ->add('save', SubmitType::class, array('label' => 'Update Todo', 'attr' => array('class' => 'btn-primary', 'style' => 'margin-botton:15px')))
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //fetching data
+            $name = $form['name']->getData();
+            $category = $form['category']->getData();
+            $description = $form['description']->getData();
+            $priority = $form['priority']->getData();
+            $due_date = $form['due_date']->getData();
+            $now = new \DateTime('now');
+            $em = $this->getDoctrine()->getManager();
+            $todo = $em->getRepository('App:Todo')->find($id);
+            $todo->setName($name);
+            $todo->setCategory($category);
+            $todo->setDescription($description);
+            $todo->setPriority($priority);
+            $todo->setDueDate($due_date);
+            $todo->setCreateDate($now);
+
+            $em->flush();
+            $this->addFlash(
+                'notice',
+                'Todo Updated'
+            );
+            return $this->redirectToRoute('home_page');
+        }
+        return  $this->render('todo/edit.html.twig', array('todo' => $todo, 'form' => $form->createView()));
     }
 
     /**
